@@ -3,14 +3,14 @@ from pydantic import BaseModel
 
 
 class User(BaseModel):
-    uuid: str
+    uuid: Union[str, None]
     email: str
     firstname: str
     lastname: str
 
 
 class Unicorn(BaseModel):
-    uuid: str
+    uuid: Union[str, None]
     description: Union[str, None] = None
     name: str
     price: int
@@ -18,5 +18,5 @@ class Unicorn(BaseModel):
 
 
 class UnicornBasket(BaseModel):
-    uuid: str
+    uuid: Union[str, None]
     unicorns: List[Unicorn]

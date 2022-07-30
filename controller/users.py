@@ -11,7 +11,7 @@ router = APIRouter(
 fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
-@router.get("")
+@router.post("")
 async def ceate_user(user: User):
     return user
 

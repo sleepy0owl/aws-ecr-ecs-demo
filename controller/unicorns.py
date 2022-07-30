@@ -18,4 +18,10 @@ async def create_unicorn(unicorn: Unicorn):
 
 @router.get("")
 async def get_unicorns():
-    return fake_items_db
+    return [{
+        "uuid": "26981737-0d6c-11ed-a8b9-1266feb9a66d",
+        "name": "UnicornFloat",
+        "description": "Big Unicorn Float! Giant Glitter Unicorn Pool Floaty",
+        "price": 100,
+        "image": "UnicornFloat"
+    }]
