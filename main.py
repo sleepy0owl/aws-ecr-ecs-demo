@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.core.config import settings
 from fastapi.middleware.cors import CORSMiddleware
-from controller import users, unicrons
+from controller import users, health, unicorn_basket, unicorns
 
 
 def get_application():
@@ -20,4 +20,6 @@ def get_application():
 
 app = get_application()
 app.include_router(users.router)
-app.include_router(unicrons.router)
+app.include_router(unicorns.router)
+app.include_router(health.router)
+app.include_router(unicorn_basket.router)
