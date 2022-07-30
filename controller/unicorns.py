@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from models.models import Unicorn
+
 
 router = APIRouter(
     prefix="/unicorns",
@@ -9,11 +11,11 @@ router = APIRouter(
 fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
+@router.post("")
+async def create_unicorn(unicorn: Unicorn):
+    return unicorn
+
+
 @router.get("")
 async def get_unicorns():
-    return fake_items_db
-
-
-@router.post("/basket")
-async def create_unicorn_basket():
     return fake_items_db

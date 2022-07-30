@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from models.models import User
+
 
 router = APIRouter(
     prefix="/user",
@@ -10,10 +12,10 @@ fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
 @router.get("")
-async def ceate_user():
-    return fake_items_db
+async def ceate_user(user: User):
+    return user
 
 
 @router.post("/login")
-async def user_login():
-    return fake_items_db
+async def user_login(user: User):
+    return user
