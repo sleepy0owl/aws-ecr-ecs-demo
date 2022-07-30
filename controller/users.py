@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from models.models import User
 
 
@@ -11,11 +11,11 @@ router = APIRouter(
 fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
-@router.post("")
+@router.post("", status_code=status.HTTP_201_CREATED)
 async def ceate_user(user: User):
     return user
 
 
-@router.post("/login")
+@router.post("/login", status_code=status.HTTP_200_OK)
 async def user_login(user: User):
     return user
