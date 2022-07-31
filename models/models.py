@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class User(BaseModel):
-    uuid: Union[str, None]
+    uuid: Union[str, None] = None
     email: str
     firstname: str
     lastname: str
