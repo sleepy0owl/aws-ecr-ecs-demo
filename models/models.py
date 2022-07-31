@@ -8,6 +8,9 @@ class User(BaseModel):
     firstname: str
     lastname: str
 
+    class Config:
+        orm_mode = True
+
 
 class Unicorn(BaseModel):
     uuid: Union[str, None]
@@ -16,7 +19,13 @@ class Unicorn(BaseModel):
     price: int
     image: Union[str, None] = None
 
+    class Config:
+        orm_mode = True
+
 
 class UnicornBasket(BaseModel):
     uuid: Union[str, None]
     unicorns: List[Unicorn]
+
+    class Config:
+        orm_mode = True
