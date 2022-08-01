@@ -1,5 +1,17 @@
-from fastapi import APIRouter, status
+from typing import List
+from fastapi import APIRouter, Depends, status
 from models.models import Unicorn
+from database.database import SessionLocal
+from sqlalchemy.orm import session
+from database.models import UnicornsDB
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 router = APIRouter(
@@ -16,12 +28,7 @@ async def create_unicorn(unicorn: Unicorn):
     return unicorn
 
 
-@router.get("", status_code=status.HTTP_200_OK)
-async def get_unicorns():
-    return [{
-        "uuid": "26981737-0d6c-11ed-a8b9-1266feb9a66d",
-        "name": "UnicornFloat",
-        "description": "Big Unicorn Float! Giant Glitter Unicorn Pool Floaty",
-        "price": 100,
-        "image": "UnicornFloat"
-    }]
+@router.get("", status_code=status.HTTP_200_OK, response_model=List[Unicorn])
+async def get_unicorns(db: session = Depends(get_db)):
+    response = db.query(UnicornsDB).all()
+    return response
