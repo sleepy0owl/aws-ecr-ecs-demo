@@ -1,4 +1,3 @@
-import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.models import UnicornBasket
 from database.database import SessionLocal
@@ -18,8 +17,6 @@ router = APIRouter(
     prefix="/unicorns/basket",
     tags=['unicorn_basket']
 )
-
-fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
 @router.post("", status_code=status.HTTP_200_OK)
@@ -41,15 +38,29 @@ async def create_unicron_basket(unicorn_basket: UnicornBasket, db: session = Dep
 async def get_basket_by_user(user_uuid: str, db: session = Depends(get_db)):
     if user_uuid is not None:
         response = db.query(UnicornBasketDB).filter(UnicornBasketDB.uuid == user_uuid).all()
-        unicorn_uuid = response[0].unicornUuid
-        unicorns = db.query(UnicornsDB).filter(UnicornsDB.uuid == unicorn_uuid).all()
+        if response:
+            unicorn_uuid = response[0].unicornUuid
+            unicorns = db.query(UnicornsDB).filter(UnicornsDB.uuid == unicorn_uuid).all()
 
-        response_value = UnicornBasket(uuid=user_uuid, unicorns=unicorns)
-        return response_value
+            response_value = UnicornBasket(uuid=user_uuid, unicorns=unicorns)
+            return response_value
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     else:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @router.delete("", status_code=status.HTTP_200_OK)
-async def delete_basket():
-    return "deleted"
+async def delete_basket(unicorn_basket: UnicornBasket, db: session = Depends(get_db)):
+    if unicorn_basket is not None:
+        user_uuid = unicorn_basket.uuid
+        response = db.query(UnicornBasketDB).filter(UnicornBasketDB.uuid == user_uuid).all()
+        if response:
+            db.query(UnicornBasketDB).filter(UnicornBasketDB.uuid == user_uuid).delete()
+            db.commit()
+
+            return
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
