@@ -40,4 +40,12 @@ def ceate_user(user: User, db: session = Depends(get_db)):
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def user_login(user: User, db: session = Depends(get_db)):
-    return user
+    if user is not None:
+        user_uuid = user.uuid
+        response = db.query(UserDB).filter(UserDB.uuid == user_uuid).first()
+        if response is not None:
+            return user
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
