@@ -5,8 +5,8 @@ from pydantic import BaseModel
 class User(BaseModel):
     uuid: Union[str, None] = None
     email: str
-    firstname: str
-    lastname: str
+    first_name: str
+    last_name: str
 
     class Config:
         orm_mode = True
