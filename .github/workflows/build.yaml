@@ -13,8 +13,6 @@ jobs:
           echo MYSQL_PORT=${{ secrets.MYSQL_PORT }} >> .env
           echo MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} >> .env
           echo PROJECT_NAME=${{ secrets.PROJECT_NAME }} >> .env
-      - run: docker build . -t unicornshop:latest
-      - run: docker images 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -26,3 +24,11 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Check ECR Registry
         run: echo ${{ steps.login-ecr.outputs.registry }}
+      - name: Build, Tag and Push docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: app_modernization_workshop
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
