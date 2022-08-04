@@ -30,6 +30,6 @@ jobs:
           ECR_REPOSITORY: app_modernization_workshop
           IMAGE_TAG: latest
         run: |
-          docker compose up 
+          docker compose build 
           docker tag monotomicro:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
