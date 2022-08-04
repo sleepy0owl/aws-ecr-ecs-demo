@@ -5,4 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          touch .env
+          echo MYSQL_USER=${{ secrets.API_KEY }} >> .env
+          echo MYSQL_PASSWORD=${{ secrets.API_KEY }} >> .env
+          echo MYSQL_HOST=${{ secrets.API_KEY }} >> .env
+          echo MYSQL_PORT=${{ secrets.API_KEY }} >> .env
+          echo MYSQL_DATABASE=${{ secrets.API_KEY }} >> .env
+          echo PROJECT_NAME=${{ secrets.API_KEY }} >> .env
+          cat .env
       - run: ls -la
