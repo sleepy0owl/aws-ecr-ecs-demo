@@ -30,8 +30,9 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: app_modernization_workshop
+          ECR_ALIAS: w0l8v3b9
           IMAGE_TAG: latest
         run: |
           docker compose build 
-          docker tag monotomicro:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
+          docker tag monotomicro:latest $ECR_REGISTRY/$ECR_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
